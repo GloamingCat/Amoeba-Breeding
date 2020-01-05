@@ -9,9 +9,13 @@ global remainingCoins = 100
 global storedAmoeba as Amoeba
 
 function LoadGame()
+	fileID = OpenToRead("save")
+	
 	// TODO
 endfunction
 
 function SaveGame()
+	fileID = OpenToWrite("save")
+	
 	// TODO
 endfunction
