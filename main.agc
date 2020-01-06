@@ -3,16 +3,6 @@
 // Amoeba Breeding
 // =================================================================================================
 
-#insert "amoeba.agc"
-#insert "simulation.agc"
-#insert "game.agc"
-#insert "drag.agc"
-#insert "spinner.agc"
-#insert "confirm.agc"
-#insert "lab.agc"
-#insert "coin.agc"
-#insert "flask.agc"
-
 // =================================================================================================
 // Settings
 // =================================================================================================
@@ -33,8 +23,24 @@ SetScissor(0, 0, 0, 0) // Use the maximum available screen space, no black borde
 UseNewDefaultFonts(1) // Since version 2.0.22 we can use nicer default fonts.
 
 // =================================================================================================
+// Import Files
+// =================================================================================================
+
+#insert "data_amoeba.agc"
+#insert "data_simulation.agc"
+#insert "data_game.agc"
+#insert "widget_drag.agc"
+#insert "widget_spinner.agc"
+#insert "widget_confirm.agc"
+#insert "screen_lab.agc"
+#insert "screen_coin.agc"
+#insert "screen_flask.agc"
+
+// =================================================================================================
 // Main Loop
 // =================================================================================================
+
+//editBox = CreateEditBox()
 
 global state as integer = -1
 SetLabScreenVisible(1)

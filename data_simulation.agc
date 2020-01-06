@@ -1,4 +1,8 @@
 
+// =================================================================================================
+// Flask Type
+// =================================================================================================
+
 type Flask 
 	population as Amoeba[50]
 	procreationRate as float
@@ -16,23 +20,32 @@ function InitPopulation(fl ref as Flask)
 	fl.attractionRadius = 0.5
 endfunction
 
-function FeedFlask(fl ref as Flask, totalFood as integer)
-	totalSpeed as float = 0
-	for i = 1 to fl.population.length
-		totalSpeed = totalSpeed + AmoebaSpeed(fl.population[i])
-	next i
-	for i = 1 to fl.population.length
-		food as float 
-		food = totalFood * AmoebaAbsorption(fl.population[i]) * AmoebaSpeed(fl.population[i]) / totalSpeed
-		fl.population[i].life = fl.population[i].life + food
-	next i
-endfunction
-
 function ShuffleFlask(fl ref as Flask)
 	for i = 1 to fl.population.length
 		RandomizePosition(fl.population[i])
 	next i
 endfunction
+
+function SimulationStep(fl ref as Flask)
+	newPopulation as Amoeba[]
+	for i = 1 to fl.population.length
+		fl.population[i].life = fl.population[i].life - AmoebaDigestion(fl.population[i])
+		if fl.population[i].life > 0 then newPopulation.insert(fl.population[i])
+	next i
+	size = newPopulation.length
+	for i = 1 to size
+		for j = i + 1 to size
+			if CanProcreate(newPopulation[i], newPopulation[j], fl.attractionRadius, fl.procreationRate)
+				newPopulation.insert(Procreate(newPopulation[i], newPopulation[j], fl.mutationRate))
+			endif
+		next j
+	next i
+	fl.population = newPopulation
+endfunction
+
+// =================================================================================================
+// Procreation
+// =================================================================================================
 
 function CanProcreate(a as Amoeba, b as Amoeba, radius as float, rate as float)
 	result as integer
@@ -51,19 +64,24 @@ function Procreate(a as Amoeba, b as Amoeba, rate as float)
 	//AlternatingCrossOver(a, b, child)
 endfunction child
 
-function SimulationStep(fl ref as Flask)
-	newPopulation as Amoeba[]
+// =================================================================================================
+// Interaction
+// =================================================================================================
+
+function FeedFlask(fl ref as Flask, totalFood as integer)
+	totalSpeed as float = 0
 	for i = 1 to fl.population.length
-		fl.population[i].life = fl.population[i].life - AmoebaDigestion(fl.population[i])
-		if fl.population[i].life > 0 then newPopulation.insert(fl.population[i])
+		totalSpeed = totalSpeed + AmoebaSpeed(fl.population[i])
 	next i
-	size = newPopulation.length
-	for i = 1 to size
-		for j = i + 1 to size
-			if CanProcreate(newPopulation[i], newPopulation[j], fl.attractionRadius, fl.procreationRate)
-				newPopulation.insert(Procreate(newPopulation[i], newPopulation[j], fl.mutationRate))
-			endif
-		next j
+	for i = 1 to fl.population.length
+		food as float 
+		food = totalFood * AmoebaAbsorption(fl.population[i]) * AmoebaSpeed(fl.population[i]) / totalSpeed
+		fl.population[i].life = fl.population[i].life + food
 	next i
-	fl.population = newPopulation
+endfunction
+
+function DropAmoeba(fl ref as Flask)
+	RandomizePosition(storedAmoeba)
+	fl.population.insert(storedAmoeba)
+	EraseAmoeba(storedAmoeba)
 endfunction

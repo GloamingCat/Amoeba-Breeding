@@ -19,12 +19,12 @@ endtype
 // Checks if button was grabbed and update drag information.
 function OnDragButtonPress(drag ref as DragButton)
 	dragged as integer
-	if GetSpriteHitTest(drag.sprite, getPointerX(), getPointerY()) = 1
+	if GetSpriteHitTest(drag.sprite, getPointerX(), getPointerY()) = 1 and GetSpriteVisible(drag.sprite)
 		drag.wait = 10
 		drag.state = 1
 		dragged = 1
-		drag.xstart = getPointerX() - drag.x
-		drag.ystart = getPointerY() - drag.y
+		drag.xstart = GetPointerX() - drag.x
+		drag.ystart = GetPointerY() - drag.y
 	else
 		drag.state = 0
 		dragged = 0
@@ -35,8 +35,8 @@ endfunction dragged
 function OnDragButtonHold(drag ref as DragButton)
 	ended as integer
 	ended = 0
-	drag.xend = getPointerX()
-	drag.yend = getPointerY()
+	drag.xend = GetPointerX()
+	drag.yend = GetPointerY()
 	if drag.state = 1
 		if drag.wait > 0
 			drag.wait = drag.wait - 1

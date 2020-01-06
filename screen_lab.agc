@@ -60,7 +60,7 @@ function SetLabScreenVisible(visible as integer)
 	next i
 	SetSpriteVisible(coinButton, visible)
 	SetSpriteVisible(foodButton.sprite, visible)
-	SetSpriteVisible(handButton.sprite, visible)
+	SetSpriteVisible(handButton.sprite, visible and storedAmoeba.genes.length > 0)
 	if visible then state = 0
 endfunction
 
@@ -76,17 +76,27 @@ function LabScreen()
 		CheckLabButtons()
 	elseif labState = 1
 		// Food spinner open.
-		if spinnerValue >= 0
-			CloseSpinner()
+		if spinnerValue = -1
+			if UpdateSpinner() = 0
+				CloseSpinner()
+				labState = 0
+			endif
+		else
 			FeedFlask(flasks[selectedFlask], spinnerValue)
+			CloseSpinner()
 			labState = 0
 		endif
 	elseif labState = 2
 		// Confirm window open.
-		if confirmed >= 0
+		if confirmed = -1
+			if UpdateConfirm() = 0
+				CloseConfirm()
+				labState = 0
+			endif
+		else
 			CloseConfirm()
 			labState = 0
-			//DropAmoeba(flasks[selectedFlask])
+			DropAmoeba(flasks[selectedFlask])
 		endif
 	endif
 endfunction
@@ -113,23 +123,23 @@ function CheckLabButtons()
 		endif
 	elseif GetPointerReleased() = 1 
 		// Drop button.
-		OnDragButtonDrop(foodButton)
-		OnDragButtonDrop(handButton)
-	else
 		local target as integer
-		target = OnDragButtonHold(foodButton)
+		target = OnDragButtonDrop(foodButton)
 		if target >= 0
 			// Drop food.
 			SetSelectedFlask(target)
 			ShowSpinner(1, remainingFood)
 			labState = 1
 		endif
-		target = OnDragButtonHold(handButton)
+		target = OnDragButtonDrop(handButton)
 		if target >= 0
 			// Drop amoeba.
 			SetSelectedFlask(target)
 			ShowConfirm()
 			labState = 2
 		endif
+	else
+		OnDragButtonHold(foodButton)
+		OnDragButtonHold(handButton)
 	endif
 endfunction
