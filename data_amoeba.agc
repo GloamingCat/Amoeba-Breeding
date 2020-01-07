@@ -117,7 +117,7 @@ function AmoebaFormatAttraction(a ref as Amoeba)
 	x = a.genes[start + 1]
 endfunction x
 
-function AmoebaSizeAttraction(a ref as Amoeba)
+function AmoebaAreaAttraction(a ref as Amoeba)
 	start = NVERTICES * 4 + 4
 	x as float
 	x = a.genes[start + 1]
@@ -152,7 +152,7 @@ function AmoebaFormat(a ref as Amoeba)
 endfunction x
 
 // Total area.
-function AmoebaSize(a ref as Amoeba)
+function AmoebaArea(a ref as Amoeba)
 	x as float = 0
 	// TODO
 endfunction x
@@ -211,6 +211,15 @@ function AmoebaHueDistance(a ref as Amoeba, faveHue as float)
 	hue = (hue - 0.75) * 4
 endfunction hue
 
+// Overall transparency proportional to life.
+function AmoebaTransparency(a ref as Amoeba)
+	x as integer
+	x = Round(a.life * 255)
+	if x > 255
+		x = 255
+	endif
+endfunction x
+
 // =================================================================================================
 // Procreation
 // =================================================================================================
@@ -219,7 +228,7 @@ endfunction hue
 function AmoebaAttracts(a ref as Amoeba, b ref as Amoeba, rate as float)
 	attraction as float = 0
 	attraction = attraction + AmoebaFormat(a) * AmoebaFormatAttraction(b)
-	attraction = attraction + AmoebaSize(a) * AmoebaSizeAttraction(b)
+	attraction = attraction + AmoebaArea(a) * AmoebaAreaAttraction(b)
 	attraction = attraction + AmoebaLightMean(a) * AmoebaLightAttraction(b)
 	attraction = attraction + AmoebaHueVariation(a) * AmoebaHueVariationAttraction(b)
 	attraction = attraction + AmoebaHueDistance(a, AmoebaHueAttraction(b))

@@ -26,6 +26,7 @@ UseNewDefaultFonts(1) // Since version 2.0.22 we can use nicer default fonts.
 // Import Files
 // =================================================================================================
 
+#insert "graphics.agc"
 #insert "data_amoeba.agc"
 #insert "data_simulation.agc"
 #insert "data_game.agc"
@@ -34,7 +35,9 @@ UseNewDefaultFonts(1) // Since version 2.0.22 we can use nicer default fonts.
 #insert "widget_confirm.agc"
 #insert "screen_lab.agc"
 #insert "screen_coin.agc"
+#insert "screen_hand.agc"
 #insert "screen_flask.agc"
+#insert "screen_amoeba.agc"
 
 // =================================================================================================
 // Main Loop
@@ -49,7 +52,11 @@ do
 	elseif state = 1
 		CoinScreen()
 	elseif state = 2
+		HandScreen()
+	elseif state = 3
 		FlaskScreen()
+	elseif state = 4
+		AmoebaScreen()
 	endif
     Sync()
 loop

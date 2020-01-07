@@ -33,15 +33,12 @@ SetSpriteSize(foodButton.sprite, 100, 100)
 SetSpriteVisible(foodButton.sprite, 0)
 
 // Hand Button
-global handButton as DragButton
-handButton.x = 300 + GetVirtualWidth() / 2 - 50
-handButton.y = GetVirtualHeight() - 150
-handButton.sprite = CreateSprite(0)
-handButton.targets = flaskButtons
-SetSpritePosition(handButton.sprite, handButton.x, handButton.y)
-SetSpriteColor(handButton.sprite, 255, 0, 0, 255)
-SetSpriteSize(handButton.sprite, 100, 100)
-SetSpriteVisible(handButton.sprite, 0)
+global handButton as integer
+handButton = CreateSprite(0)
+SetSpritePosition(handButton, 300 + GetVirtualWidth() / 2 - 50, GetVirtualHeight() - 150)
+SetSpriteColor(handButton, 255, 0, 0, 255)
+SetSpriteSize(handButton, 100, 100)
+SetSpriteVisible(handButton, 0)
 
 // State
 // 0 => Nothing open.
@@ -60,7 +57,7 @@ function SetLabScreenVisible(visible as integer)
 	next i
 	SetSpriteVisible(coinButton, visible)
 	SetSpriteVisible(foodButton.sprite, visible)
-	SetSpriteVisible(handButton.sprite, visible and storedAmoeba.genes.length > 0)
+	SetSpriteVisible(handButton, visible and storedAmoeba.genes.length > 0)
 	if visible then state = 0
 endfunction
 
@@ -115,11 +112,13 @@ function CheckLabButtons()
 		if GetSpriteHitTest(coinButton, GetPointerX(), GetPointerY()) = 1
 			// Open Lab screen.
 			SetLabScreenVisible(0)
+			SetHandScreenVisible(1)
+		elseif GetSpriteHitTest(handButton, GetPointerX(), GetPointerY()) = 1
+			SetLabScreenVisible(0)
 			SetCoinScreenVisible(1)
 		else
 			// Drag button.
 			OnDragButtonPress(foodButton)
-			OnDragButtonPress(handButton)
 		endif
 	elseif GetPointerReleased() = 1 
 		// Drop button.
@@ -131,15 +130,7 @@ function CheckLabButtons()
 			ShowSpinner(1, remainingFood)
 			labState = 1
 		endif
-		target = OnDragButtonDrop(handButton)
-		if target >= 0
-			// Drop amoeba.
-			SetSelectedFlask(target)
-			ShowConfirm()
-			labState = 2
-		endif
 	else
 		OnDragButtonHold(foodButton)
-		OnDragButtonHold(handButton)
 	endif
 endfunction
