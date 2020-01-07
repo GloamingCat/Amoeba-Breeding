@@ -40,8 +40,7 @@ UseNewDefaultFonts(1) // Since version 2.0.22 we can use nicer default fonts.
 // Main Loop
 // =================================================================================================
 
-//editBox = CreateEditBox()
-
+LoadGame()
 global state as integer = -1
 SetLabScreenVisible(1)
 do

@@ -4,14 +4,15 @@
 // =================================================================================================
 
 type Flask 
-	population as Amoeba[50]
+	population as Amoeba[]
 	procreationRate as float
 	mutationRate as float
 	attractionRadius as float
 endtype
 
 function InitPopulation(fl ref as Flask)
-	for i = 1 to fl.population.length
+	fl.population.length = 50
+	for i = 1 to 50
 		RandomizeGenes(fl.population[i])
 		RandomizePosition(fl.population[i])
 	next i
