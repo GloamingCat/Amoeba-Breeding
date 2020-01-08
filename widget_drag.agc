@@ -61,7 +61,6 @@ function OnDragButtonDrop(drag ref as DragButton)
 			for i = 1 to drag.targets.length
 				if GetSpriteHitTest(drag.targets[i], drag.xend, drag.yend) = 1
 					dropped = i
-					break
 				endif
 			next i
 		endif

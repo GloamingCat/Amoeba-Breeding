@@ -4,7 +4,7 @@
 // =================================================================================================
 
 #constant FLASKSIZE 600
-#constant AMOEBASIZE 4
+#constant AMOEBASIZE 8
 
 // Flask ID.
 global selectedFlask as integer = -1
@@ -56,6 +56,7 @@ flaskState as integer = 0
 
 // Show / hide buttons.
 function SetFlaskScreenVisible(visible as integer)
+	RefreshFlaskAmoebaButtons(visible)
 	SetSpriteVisible(flaskSprite, visible)
 	SetSpriteVisible(radiationButton, visible)
 	SetSpriteVisible(shuffleButton, visible)
@@ -66,18 +67,8 @@ function SetFlaskScreenVisible(visible as integer)
 	if visible then state = 3
 endfunction
 
-// Update button graphics.
-function SetFlaskAmoebaButton(id as integer, x as float, y as float, color as integer[])
-	x = (GetVirtualWidth() - FLASKSIZE * x) / 2 - AMOEBASIZE / 2
-	y = (GetVirtualHeight() - FLASKSIZE * y) / 2 - AMOEBASIZE / 2
-	SetSpritePosition(id, Round(x), Round(y))
-	SetSpriteColor(id, color[1], color[2], color[3], color[4])
-	SetSpriteSize(id, AMOEBASIZE, 4)
-	SetSpriteVisible(id, 0)
-endfunction
-
 // Refresh all buttons.
-function RefreshFlaskAmoebaButtons()
+function RefreshFlaskAmoebaButtons(visible as integer)
 	// Missing
 	for i = amoebaButtons.length + 1 to flasks[selectedFlask].population.length
 		amoebaButtons.insert(CreateSprite(0))
@@ -88,18 +79,23 @@ function RefreshFlaskAmoebaButtons()
 	next i
 	amoebaButtons.length = flasks[selectedFlask].population.length
 	for i = 1 to amoebaButtons.length
+		x as float
+		x = flasks[selectedFlask].population[i].x
+		x = (GetVirtualWidth() - FLASKSIZE * x) / 2 - AMOEBASIZE / 2
+		y as float
+		y = flasks[selectedFlask].population[i].y
+		y = (GetVirtualHeight() - FLASKSIZE * y) / 2 - AMOEBASIZE / 2
 		hue as float
 		hue = AmoebaHueMean(flasks[selectedFlask].population[i])
 		light as float
 		light = AmoebaLightMean(flasks[selectedFlask].population[i])
 		color as integer[]
 		color = HL2RGB(hue, light)
-		color.insert(AmoebaTransparency(flasks[selectedFlask].population[i]))
-		x as float
-		x = flasks[selectedFlask].population[i].x
-		y as float
-		y = flasks[selectedFlask].population[i].y
-		SetFlaskAmoebaButton(amoebaButtons[i], x, y, color)
+		alpha = AmoebaTransparency(flasks[selectedFlask].population[i])
+		SetSpritePosition(amoebaButtons[i], Round(x), Round(y))
+		SetSpriteColor(amoebaButtons[i], color[1], color[2], color[3], alpha)
+		SetSpriteSize(amoebaButtons[i], AMOEBASIZE, AMOEBASIZE)
+		SetSpriteVisible(amoebaButtons[i], visible)
 	next i
 endfunction
 
@@ -136,15 +132,17 @@ function CheckFlaskButtons()
 			ShowSpinner(1, 100)
 			flaskState = 1
 		elseif GetSpriteHitTest(shuffleButton, GetPointerX(), GetPointerY()) = 1
-			// Shuffle amoebas
+			// Shuffle amoebas.
 			ShuffleFlask(flasks[selectedFlask])
-			RefreshFlaskAmoebaButtons()
+			RefreshFlaskAmoebaButtons(1)
 		elseif GetSpriteHitTest(returnFlaskButton, GetPointerX(), GetPointerY()) = 1
+			// Return screen.
 			SetFlaskScreenVisible(0)
 			SetLabScreenVisible(1)
 		else
 			for i = 1 to amoebaButtons.length
 				if GetSpriteHitTest(amoebaButtons[i], GetPointerX(), GetPointerY()) = 1
+					// Select amoeba.
 					SetSelectedAmoeba(i)
 					SetFlaskScreenVisible(0)
 					SetAmoebaScreenVisible(1)

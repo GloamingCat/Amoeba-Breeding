@@ -11,10 +11,11 @@ type Flask
 endtype
 
 function InitPopulation(fl ref as Flask)
-	fl.population.length = 50
-	for i = 1 to 50
+	fl.population.length = 15
+	for i = 1 to 15
 		RandomizeGenes(fl.population[i])
 		RandomizePosition(fl.population[i])
+		fl.population[i].life = 100
 	next i
 	fl.procreationRate = 0.5
 	fl.mutationRate = 0.05

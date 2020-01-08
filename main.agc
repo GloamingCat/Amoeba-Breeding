@@ -46,6 +46,8 @@ UseNewDefaultFonts(1) // Since version 2.0.22 we can use nicer default fonts.
 LoadGame()
 global state as integer = -1
 SetLabScreenVisible(1)
+
+DumpFlask(flasks[1])
 do
 	if state = 0
 		LabScreen()

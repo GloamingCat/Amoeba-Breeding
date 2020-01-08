@@ -19,6 +19,30 @@ function InitData()
 endfunction
 
 // =================================================================================================
+// Logging
+// =================================================================================================
+
+function DumpAmoeba(a ref as Amoeba)
+	Log("Position: " + Str(a.x) + ", " + Str(a.y))
+	Log("Life: " + Str(a.life))
+	genes$ = ""
+	for i = 1 to a.genes.length
+		genes$ = genes$ + Str(a.genes[i]) + " "
+	next i
+	Log("Genes: " + genes$)
+endfunction
+
+function DumpFlask(fl ref as Flask)
+	Log("Procreation Rate: " + Str(fl.procreationRate))
+	Log("Mutation Rate: " + Str(fl.mutationRate))
+	Log("Attraction Radius: " + Str(fl.attractionRadius))
+	for i = 1 to fl.population.length
+		Log(i)
+		DumpAmoeba(fl.population[i])
+	next i
+endfunction
+
+// =================================================================================================
 // Load
 // =================================================================================================
 

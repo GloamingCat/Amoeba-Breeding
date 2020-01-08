@@ -65,7 +65,6 @@ function RemoveAndReturn()
 	selectedAmoeba = -1
 	SetAmoebaScreenVisible(0)
 	SetFlaskScreenVisible(1)
-	RefreshFlaskAmoebaButtons()
 endfunction
 
 // =================================================================================================
