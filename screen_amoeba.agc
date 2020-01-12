@@ -11,13 +11,6 @@ function SetSelectedAmoeba(id as integer)
 	selectedAmoeba = id
 endfunction
 
-global amoebaSprite as integer
-amoebaSprite = CreateSprite(0)
-SetSpritePosition(amoebaSprite, GetVirtualWidth() / 2 - 50, GetVirtualHeight() - 150)
-SetSpriteColor(amoebaSprite, 255, 255, 255, 255)
-SetSpriteSize(amoebaSprite, AMOEBAZOOMSIZE, AMOEBAZOOMSIZE)
-SetSpriteVisible(amoebaSprite, 0)
-
 // Discard amoeba
 global killButton as integer
 killButton = CreateSprite(0)
@@ -53,7 +46,8 @@ global amoebaState as integer = 0
 
 // Show / hide buttons.
 function SetAmoebaScreenVisible(visible as integer)
-	SetSpriteVisible(amoebaSprite, visible)
+	SetMeshAttributes(flasks[selectedFlask].population[selectedAmoeba].genes)
+	SetObjectVisible(amoebaObject, visible)
 	SetSpriteVisible(killButton, visible)
 	SetSpriteVisible(storeButton, visible)
 	SetSpriteVisible(returnAmoebaButton, visible)

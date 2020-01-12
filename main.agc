@@ -24,9 +24,12 @@ UseNewDefaultFonts(1) // Since version 2.0.22 we can use nicer default fonts.
 
 // Background
 local bg as integer
-bg = CreateSprite(0)
-SetSpriteSize(bg, GetMaxDeviceWidth(), GetMaxDeviceHeight())
-SetSpriteColor(bg, 255, 220, 150, 255)
+bg = CreateObjectPlane(GetMaxDeviceWidth(), GetMaxDeviceHeight())
+SetObjectPosition(bg, 0, 0, 10)
+SetObjectColor(bg, 255, 220, 150, 255)
+
+// Camera
+SetCameraFOV(1, 0)
 
 // =================================================================================================
 // Import Files

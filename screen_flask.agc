@@ -90,7 +90,7 @@ function RefreshFlaskAmoebaButtons(visible as integer)
 		light as float
 		light = AmoebaLightMean(flasks[selectedFlask].population[i])
 		color as integer[]
-		color = HL2RGB(hue, light)
+		color = HSV2RGB(hue, light, 1)
 		alpha = AmoebaTransparency(flasks[selectedFlask].population[i])
 		SetSpritePosition(amoebaButtons[i], Round(x), Round(y))
 		SetSpriteColor(amoebaButtons[i], color[1], color[2], color[3], alpha)

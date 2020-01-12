@@ -25,11 +25,6 @@ function RandomGene()
 	gene = RandomFloat() * 2 - 1
 endfunction gene
 
-function EraseAmoeba(a ref as Amoeba)
-	genes as float[]
-	a.genes = genes
-endfunction
-
 function RandomizeGenes(a ref as Amoeba)
 	genes as float[NGENES]
 	for i = 1 to NGENES
@@ -47,6 +42,11 @@ function RandomizePosition(a ref as Amoeba)
 	a.y = radius * Sin(angle)
 endfunction
 
+function EraseAmoeba(a ref as Amoeba)
+	genes as float[]
+	a.genes = genes
+endfunction
+
 // =================================================================================================
 // Primary Fenotypes - Appearance
 // =================================================================================================
@@ -62,7 +62,7 @@ function AmoebaLightness(a ref as Amoeba)
 	start = NVERTICES
 	light as float[NVERTICES]
 	for i = 1 to NVERTICES
-		light[i] = a.genes[i + start]
+		light[i] = Abs(a.genes[i + start])
 	next i
 endfunction light
 
