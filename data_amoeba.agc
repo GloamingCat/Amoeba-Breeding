@@ -55,6 +55,7 @@ function AmoebaHues(a ref as Amoeba)
 	colors as float[NVERTICES]
 	for i = 1 to NVERTICES
 		colors[i] = a.genes[i]
+		if a.genes[i] < 0 then colors[i] = colors[i] + 1
 	next i
 endfunction colors
 
@@ -187,7 +188,8 @@ function AmoebaHueVariation(a as Amoeba)
 	hues as float[]
 	hues = AmoebaHues(a)
 	for i = 1 to hues.length
-		x = x + (hues[i] - mean) * (hues[i] - mean)
+		h# = hues[i] - mean
+		x = x + h# * h#
 	next i
 	x = x / hues.length
 endfunction x
@@ -210,6 +212,26 @@ function AmoebaHueDistance(a ref as Amoeba, faveHue as float)
 	// Adjust to (-1, 1)
 	hue = (hue - 0.75) * 4
 endfunction hue
+
+function AmoebaDominantHue(a ref as Amoeba)
+	score as float[NVERTICES]
+	hues as float[]
+	hues = AmoebaHues(a)
+	for i = 1 to NVERTICES
+		for j = 1 to NVERTICES
+			s# = Abs(hues[i] - hues[j])
+			if s# < 0.5
+				score[i] = score[i] + s#
+			else
+				score[i] = score[i] + 1 - s# 
+			endif
+		next j
+	next i
+	best = 1
+	for i = 2 to NVERTICES
+		if score[i] < score[best] then best = i
+	next i
+endfunction hues[best]
 
 // Overall transparency proportional to life.
 function AmoebaTransparency(a ref as Amoeba)

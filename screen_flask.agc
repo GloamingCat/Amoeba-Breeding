@@ -86,7 +86,7 @@ function RefreshFlaskAmoebaButtons(visible as integer)
 		y = flasks[selectedFlask].population[i].y
 		y = (GetVirtualHeight() - FLASKSIZE * y) / 2 - AMOEBASIZE / 2
 		hue as float
-		hue = AmoebaHueMean(flasks[selectedFlask].population[i])
+		hue = AmoebaDominantHue(flasks[selectedFlask].population[i])
 		light as float
 		light = AmoebaLightMean(flasks[selectedFlask].population[i])
 		color as integer[]
