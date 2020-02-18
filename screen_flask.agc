@@ -3,7 +3,9 @@
 // Flask Screen
 // =================================================================================================
 
-#constant FLASKSIZE 600
+#constant FLASKSIZE 576
+#constant FLASKBORDERX 64
+#constant FLASKBORDERY 32
 #constant AMOEBASIZE 8
 
 // Flask ID.
@@ -12,10 +14,9 @@ function SetSelectedFlask(id as integer)
 	selectedFlask = id
 endfunction
 global flaskSprite as integer
-flaskSprite = CreateSprite(0)
-SetSpritePosition(flaskSprite, (GetVirtualWidth() - FLASKSIZE) / 2, (GetVirtualHeight() - FLASKSIZE) / 2)
-SetSpriteColor(flaskSprite, 0, 255, 255, 255)
-SetSpriteSize(flaskSprite, FLASKSIZE, FLASKSIZE)
+flaskSprite = CreateSprite(flaskImg)
+SetSpritePosition(flaskSprite, (GetVirtualWidth() - FLASKSIZE) / 2 - FLASKBORDERX, (GetVirtualHeight() - FLASKSIZE) / 2 - FLASKBORDERY)
+SetSpriteSize(flaskSprite, FLASKSIZE + FLASKBORDERX * 2, FLASKSIZE + FLASKBORDERY * 2)
 SetSpriteVisible(flaskSprite, 0)
 
 // Shuffle button

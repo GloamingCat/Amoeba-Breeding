@@ -5,39 +5,35 @@
 
 // Flask Buttons
 global flaskButtons as integer [4]
+flaskImg = LoadImage("Flask.png")
 for i = 1 to 4
-	flaskButtons[i] = CreateSprite(0)
-	SetSpritePosition(flaskButtons[i], ((i + 1) / 2 - 1.5) * 300 + GetVirtualWidth() / 2 - 125, 300 * mod(i, 2) + 300)
-	SetSpriteColor(flaskButtons[i], 0, 255, 255, 255)
-	SetSpriteSize(flaskButtons[i], 250, 250)
+	flaskButtons[i] = CreateSprite(flaskImg)
+	SetSpritePosition(flaskButtons[i], ((i + 1) / 2 - 1.5) * 300 + GetVirtualWidth() / 2 - 125, 300 * mod(i, 2) + 200)
 	SetSpriteVisible(flaskButtons[i], 0)
 next i
 
 // Coin Button
 global coinButton as integer
-coinButton = CreateSprite(0)
-SetSpritePosition(coinButton, -300 + GetVirtualWidth() / 2 - 50, GetVirtualHeight() - 150)
-SetSpriteColor(coinButton, 0, 0, 255, 255)
-SetSpriteSize(coinButton, 100, 100)
+coinImg = LoadImage("Coin.png")
+coinButton = CreateSprite(coinImg)
+SetSpritePosition(coinButton, 192, GetVirtualHeight() - 192)
 SetSpriteVisible(coinButton, 0)
 
 // Food button
 global foodButton as DragButton
-foodButton.x = GetVirtualWidth() / 2 - 50
-foodButton.y = GetVirtualHeight() - 150
-foodButton.sprite = CreateSprite(0)
+foodImg = LoadImage("Food.png")
+foodButton.sprite = CreateSprite(foodImg)
+foodButton.x = GetVirtualWidth() / 2 - 64
+foodButton.y = GetVirtualHeight() - 192
 foodButton.targets = flaskButtons
 SetSpritePosition(foodButton.sprite, foodButton.x, foodButton.y)
-SetSpriteColor(foodButton.sprite, 0, 255, 0, 255)
-SetSpriteSize(foodButton.sprite, 100, 100)
 SetSpriteVisible(foodButton.sprite, 0)
 
 // Hand Button
 global handButton as integer
-handButton = CreateSprite(0)
-SetSpritePosition(handButton, 300 + GetVirtualWidth() / 2 - 50, GetVirtualHeight() - 150)
-SetSpriteColor(handButton, 255, 0, 0, 255)
-SetSpriteSize(handButton, 100, 100)
+handImg = LoadImage("Bottle.png")
+handButton = CreateSprite(handImg)
+SetSpritePosition(handButton, GetVirtualWidth() - 192 - 128, GetVirtualHeight() - 192)
 SetSpriteVisible(handButton, 0)
 
 // State
@@ -57,7 +53,7 @@ function SetLabScreenVisible(visible as integer)
 	next i
 	SetSpriteVisible(coinButton, visible)
 	SetSpriteVisible(foodButton.sprite, visible)
-	SetSpriteVisible(handButton, visible and storedAmoeba.genes.length > 0)
+	SetSpriteVisible(handButton, visible)
 	if visible then state = 0
 endfunction
 

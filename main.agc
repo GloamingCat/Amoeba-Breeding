@@ -26,7 +26,7 @@ UseNewDefaultFonts(1) // Since version 2.0.22 we can use nicer default fonts.
 local bg as integer
 bg = CreateObjectPlane(GetMaxDeviceWidth(), GetMaxDeviceHeight())
 SetObjectPosition(bg, 0, 0, 10)
-SetObjectColor(bg, 255, 220, 150, 255)
+SetObjectColor(bg, 200, 220, 255, 255)
 
 // Camera
 SetCameraFOV(1, 0)
